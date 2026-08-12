@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="MindWave is a premium psychological response analysis platform. Receive structured insights, track emotional patterns, and support your mental wellness securely.">
+  <title>MindWave — Psychological Response Analyzer</title>
+
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <!-- Background Decorative Glowing Blobs -->
+  <div class="glow-bg-container" aria-hidden="true">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+  </div>
+
+  <!-- Sticky Transparent Navigation Bar -->
+  <header class="navbar-header">
+    <div class="navbar-container">
+      <a href="#home" class="logo-group" id="logo-link">
+        <svg class="heartbeat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        <span class="logo-text">Mind<span>Wave</span></span>
+      </a>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle menu" aria-controls="primary-navigation"
+        aria-expanded="false" id="mobile-toggle">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <nav class="navigation-menu" id="primary-navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="/screening.html" class="nav-link">Screening</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="/login.html" class="btn-login" id="login-button">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-container">
+        <!-- Badge -->
+        <div class="hero-badge-wrapper fade-in-up">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            MindWave – Psychological Response Analyzer
+          </div>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="hero-heading fade-in-up delay-1">
+          Turning Psychological <br>Responses into <br><span class="gradient-text">Meaningful Insights</span>
+        </h1>
+
+        <!-- Description -->
+        <p class="hero-description fade-in-up delay-2">
+          MindWave is a psychological response analysis platform that helps users better understand emotional and
+          behavioral patterns through scientifically designed assessments. Receive structured insights that support
+          self-awareness and informed mental wellness.
+        </p>
+
+        <!-- Hero Actions -->
+        <div class="hero-actions fade-in-up delay-3">
+          <a href="/login.html?tab=signup" class="btn btn-primary">
+            <span>Get Started</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#about" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="about-container">
+        <div class="about-header-group">
+          <span class="section-tag fade-in-trigger">ABOUT MINDWAVE</span>
+          <h2 class="section-heading fade-in-trigger">
+            A Smarter Way to Understand Your <span class="text-cyan">Psychological Patterns</span>
+          </h2>
+          <p class="section-description fade-in-trigger">
+            MindWave transforms structured psychological assessments into meaningful, easy-to-understand insights. By
+            identifying emotional and behavioral response patterns, the platform helps users improve self-awareness
+            while maintaining complete privacy and confidentiality.
+          </p>
+        </div>
+
+        <!-- Glassmorphism Feature Cards Grid -->
+        <div class="feature-grid">
+          <!-- Card 1 -->
+          <div class="feature-card glass fade-in-trigger">
+            <div class="card-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="card-title">Track Responses</h3>
+            <p class="card-text">
+              Record psychological assessment responses securely and monitor changes over time.
+            </p>
+            <div class="card-glow"></div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card glass fade-in-trigger">
+            <div class="card-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">Discover Patterns</h3>
+            <p class="card-text">
+              Analyze response trends to understand emotional and behavioral characteristics with clear visual insights.
+            </p>
+            <div class="card-glow"></div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="feature-card glass fade-in-trigger">
+            <div class="card-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-icon">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">Private & Secure</h3>
+            <p class="card-text">
+              All assessment data remains confidential with secure storage and privacy-first design.
+            </p>
+            <div class="card-glow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Premium Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#home" class="logo-group">
+          <svg class="heartbeat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+          <span class="logo-text">Mind<span>Wave</span></span>
+        </a>
+        <p class="footer-tagline">Advanced cognitive analytics and emotional telemetry designed for deep personal
+          insight and privacy.</p>
+      </div>
+      <div class="footer-links-group">
+        <div class="footer-column">
+          <h4 class="footer-col-title">Platform</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#assessments">Assessments</a></li>
+            <li><a href="#security">Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 class="footer-col-title">Resources</h4>
+          <ul>
+            <li><a href="#blog">Scientific Basis</a></li>
+            <li><a href="#guides">Privacy Policy</a></li>
+            <li><a href="#faq">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 MindWave Inc. All rights reserved. Designed for cognitive self-awareness and wellness telemetry.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script type="module" src="/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Take MindWave's scientifically designed self-assessment mental wellness Bipolar Disorder screening test to explore mood fluctuations and elevation securely.">
+  <title>MindWave — Bipolar Disorder Screening Test</title>
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="screening-page-body">
+
+  <!-- Background Decorative Glowing Blobs -->
+  <div class="glow-bg-container" aria-hidden="true">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+  </div>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="navbar-header">
+    <div class="navbar-container">
+      <a href="/" class="logo-group">
+        <svg class="heartbeat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <span class="logo-text">Mind<span>Wave</span></span>
+      </a>
+      
+      <button class="mobile-nav-toggle" aria-label="Toggle menu" aria-controls="primary-navigation" aria-expanded="false" id="mobile-toggle">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <nav class="navigation-menu" id="primary-navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="/screening.html" class="nav-link active">Screening</a></li>
+          <li class="nav-item"><a href="/#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="/login.html" class="btn-login" id="login-button">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="screening-main-container">
+    <!-- Interactive Quiz Container -->
+    <section id="screening-test-container">
+      <div id="bipolar-react-root"></div>
+    </section>
+  </main>
+
+  <!-- Muted Footer Section -->
+  <footer class="screening-footer">
+    <div class="screening-footer-container">
+      <p class="screening-footer-text">
+        Results are for informational purposes only and do not constitute a clinical diagnosis. &copy; 2026 MindWave Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle Mobile Nav Menu Script -->
+  <script type="module" src="/app.js"></script>
+  <!-- React App Root Script -->
+  <script type="module" src="/react-component/bipolar-main.jsx"></script>
+</body>
+</html>

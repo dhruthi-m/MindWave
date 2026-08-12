@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Choose from MindWave's scientifically designed self-assessment mental wellness screenings, including Schizophrenia, Bipolar, and Combined screenings.">
+  <title>MindWave — Mental Health Screening</title>
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="screening-page-body">
+
+  <!-- Background Decorative Glowing Blobs -->
+  <div class="glow-bg-container" aria-hidden="true">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+  </div>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="navbar-header">
+    <div class="navbar-container">
+      <a href="/" class="logo-group">
+        <svg class="heartbeat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <span class="logo-text">Mind<span>Wave</span></span>
+      </a>
+      
+      <button class="mobile-nav-toggle" aria-label="Toggle menu" aria-controls="primary-navigation" aria-expanded="false" id="mobile-toggle">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <nav class="navigation-menu" id="primary-navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="/screening.html" class="nav-link active">Screening</a></li>
+          <li class="nav-item"><a href="/#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a href="/login.html" class="btn-login" id="login-button">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="screening-main-container">
+    <!-- Main Content Section -->
+    <section class="tests-selection-section">
+      <div class="section-header-centered">
+        <h1 class="screening-title">Choose a Screening Test</h1>
+      </div>
+
+      <!-- Test Selection Cards Grid -->
+      <div class="tests-grid">
+        <!-- Card 1: Schizophrenia -->
+        <div class="test-card glass">
+          <div class="test-card-content">
+            <div class="test-icon-wrapper">
+              <svg class="test-line-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-3.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/>
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-3.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/>
+              </svg>
+            </div>
+            <h2 class="test-card-title">Schizophrenia Screening</h2>
+            <p class="test-card-subtext">Screens for early psychotic-like experiences</p>
+          </div>
+          <div class="test-card-actions">
+            <a href="/schizophrenia-test.html" class="btn btn-secondary start-test-btn">Start Test</a>
+          </div>
+          <div class="card-glow"></div>
+        </div>
+
+        <!-- Card 2: Bipolar -->
+        <div class="test-card glass">
+          <div class="test-card-content">
+            <div class="test-icon-wrapper">
+              <svg class="test-line-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4c-1 0-1.5-1-2-2.5l-2-6-3 17-2-12C8.5 7 8 6 7 6H2"/>
+              </svg>
+            </div>
+            <h2 class="test-card-title">Bipolar Disorder Screening</h2>
+            <p class="test-card-subtext">Screens for mood elevation and manic symptoms</p>
+          </div>
+          <div class="test-card-actions">
+            <a href="/bipolar-test.html" class="btn btn-secondary start-test-btn">Start Test</a>
+          </div>
+          <div class="card-glow"></div>
+        </div>
+
+        <!-- Card 3: Combined -->
+        <div class="test-card glass">
+          <div class="test-card-content">
+            <div class="test-icon-wrapper">
+              <svg class="test-line-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="12" height="12" rx="2"/>
+                <rect x="9" y="9" width="12" height="12" rx="2"/>
+              </svg>
+            </div>
+            <h2 class="test-card-title">Combined Screening</h2>
+            <p class="test-card-subtext">Covers both in a single assessment</p>
+          </div>
+          <div class="test-card-actions">
+            <a href="/combined-test.html" class="btn btn-secondary start-test-btn">Start Test</a>
+          </div>
+          <div class="card-glow"></div>
+        </div>
+      </div>
+
+      <!-- Disclaimer Banner (Positioned below screening tests) -->
+      <div class="disclaimer-banner" role="note" aria-label="Disclaimer">
+        <div class="disclaimer-content">
+          <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <p class="disclaimer-text">
+            This is a self-awareness screening tool, not a medical diagnosis. If you're experiencing distress or these results concern you, please consult a licensed mental health professional or psychiatrist.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Muted Footer Section -->
+  <footer class="screening-footer">
+    <div class="screening-footer-container">
+      <p class="screening-footer-text">
+        Results are for informational purposes only and do not constitute a clinical diagnosis. &copy; 2026 MindWave Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle Mobile Nav Menu Script -->
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

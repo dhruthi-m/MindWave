@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Access your MindWave Psychological Response Analyzer account. Log in or create an account to track your wellness insights securely.">
+  <title>MindWave — Access Portal</title>
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet (Shared variables and login rules) -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-page-body">
+
+  <!-- Background Decorative Glowing Blobs (Cohesive with Landing) -->
+  <div class="glow-bg-container" aria-hidden="true">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+  </div>
+
+  <div class="auth-page-wrapper">
+    <!-- Clean Logo Header -->
+    <header class="auth-header">
+      <a href="/" class="logo-group">
+        <svg class="heartbeat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <span class="logo-text">Mind<span>Wave</span></span>
+      </a>
+    </header>
+
+    <main class="auth-main">
+      <!-- Centered Glassmorphism Authentication Card -->
+      <div class="auth-card glass">
+        
+        <!-- Navigation Tab Headers -->
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-login" aria-controls="form-login" aria-selected="true" role="tab">Login</button>
+          <button class="auth-tab-btn" id="tab-signup" aria-controls="form-signup" aria-selected="false" role="tab">Create Account</button>
+        </div>
+
+        <div class="auth-forms-container">
+          <!-- 1. LOGIN FORM -->
+          <form id="form-login" class="auth-form active" role="tabpanel" aria-labelledby="tab-login" novalidate>
+            <div class="input-group">
+              <label for="login-username" class="field-label">Username</label>
+              <input type="text" id="login-username" name="username" class="input-field" placeholder="Enter your username" required autocomplete="username">
+              <span class="helper-text error-msg"></span>
+            </div>
+
+            <div class="input-group">
+              <label for="login-password" class="field-label">Password</label>
+              <div class="password-field-wrapper">
+                <input type="password" id="login-password" name="password" class="input-field password-input" placeholder="Enter your password" required autocomplete="current-password">
+                <button type="button" class="password-toggle-btn" aria-label="Show password">
+                  <svg class="eye-icon eye-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                  <svg class="eye-icon eye-on hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <span class="helper-text error-msg"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-submit-btn">Login</button>
+
+            <div class="forgot-pwd-wrapper">
+              <a href="#forgot" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <div class="auth-switch-prompt">
+              <span>Don't have an account?</span>
+              <button type="button" class="switch-tab-link" id="switch-to-signup">Create one</button>
+            </div>
+          </form>
+
+          <!-- 2. CREATE ACCOUNT FORM -->
+          <form id="form-signup" class="auth-form" role="tabpanel" aria-labelledby="tab-signup" novalidate>
+            <div class="input-group">
+              <label for="signup-username" class="field-label">Username</label>
+              <input type="text" id="signup-username" name="username" class="input-field" placeholder="Choose a username" required autocomplete="username">
+              <span class="helper-text text-muted">Must be at least 4 characters</span>
+            </div>
+
+            <div class="input-group">
+              <label for="signup-email" class="field-label">Email Address</label>
+              <input type="email" id="signup-email" name="email" class="input-field" placeholder="you@example.com" required autocomplete="email">
+              <span class="helper-text error-msg"></span>
+            </div>
+
+            <div class="input-group">
+              <label for="signup-password" class="field-label">Password</label>
+              <input type="password" id="signup-password" name="password" class="input-field password-input" placeholder="Create a strong password" required autocomplete="new-password">
+              <span class="helper-text text-muted">Minimum 8 characters with letters & numbers</span>
+            </div>
+
+            <div class="input-group">
+              <label for="signup-confirm-password" class="field-label">Confirm Password</label>
+              <input type="password" id="signup-confirm-password" name="confirm-password" class="input-field password-input" placeholder="Re-enter password" required autocomplete="new-password">
+              <span class="helper-text error-msg" id="pwd-match-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-submit-btn">Create Account</button>
+
+            <div class="auth-switch-prompt">
+              <span>Already have an account?</span>
+              <button type="button" class="switch-tab-link" id="switch-to-login">Login</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Auth Pages Logic -->
+  <script type="module" src="/login.js"></script>
+</body>
+</html>
