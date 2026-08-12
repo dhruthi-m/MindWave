@@ -33,10 +33,31 @@ export default function SchizophreniaInsights({
   onBack, 
   onRetake, 
   onHome, 
-  patientName = "Dhruthi M" 
+  patientName = "Dhruthi M",
+  answers = [],
+  symptomsCount = 0,
+  severityScore = 0
 }) {
+  const pastScreenings = useMemo(() => {
+    try {
+      const stored = localStorage.getItem('mindwave_schiz_history');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map(item => ({
+            date: item.date,
+            symptomCount: item.score,
+            distressScore: item.distressScore
+          }));
+        }
+      }
+    } catch (e) {}
+
+    const currentDate = localStorage.getItem('mindwave_schiz_date') || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return [{ date: currentDate, symptomCount: symptomsCount, distressScore: severityScore }];
+  }, [symptomsCount, severityScore]);
+
   const {
-    pastScreenings,
     moodCorrelation,
     keyPatterns,
     journalStreak,

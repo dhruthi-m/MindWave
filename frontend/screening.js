@@ -322,7 +322,27 @@ function submitQuiz() {
   localStorage.setItem('mindwave_schiz_symptomCount', symptomCount);
   localStorage.setItem('mindwave_schiz_totalExtent', totalDistress);
   const options = { month: 'short', day: 'numeric' };
-  localStorage.setItem('mindwave_schiz_date', new Date().toLocaleDateString('en-US', options));
+  const dateStr = new Date().toLocaleDateString('en-US', options);
+  localStorage.setItem('mindwave_schiz_date', dateStr);
+
+  // Maintain historical screenings in localStorage
+  try {
+    const rawHist = localStorage.getItem('mindwave_schiz_history');
+    let historyArr = rawHist ? JSON.parse(rawHist) : [];
+    // Avoid duplicate entry if submitted in same minute with same score
+    const lastEntry = historyArr[historyArr.length - 1];
+    if (!lastEntry || lastEntry.score !== symptomCount || lastEntry.distressScore !== totalDistress || lastEntry.date !== dateStr) {
+      historyArr.push({
+        date: dateStr,
+        score: symptomCount,
+        distressScore: totalDistress,
+        timestamp: Date.now()
+      });
+      localStorage.setItem('mindwave_schiz_history', JSON.stringify(historyArr));
+    }
+  } catch (e) {
+    console.error('Error saving history record:', e);
+  }
 
   renderResults(symptomCount, totalDistress, isElevated);
 }

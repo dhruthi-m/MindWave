@@ -66,18 +66,18 @@ export default function SchizophreniaDashboard({
             {/* Individual Detailed Pages */}
             <Route path="/risk" element={<RiskPage symptomsCount={symptomsCount} />} />
             <Route path="/score" element={<ScorePage symptomsCount={symptomsCount} answers={answers} />} />
-            <Route path="/stability" element={<StabilityPage symptomsCount={symptomsCount} />} />
+            <Route path="/stability" element={<StabilityPage symptomsCount={symptomsCount} severityScore={severityScore} answers={answers} />} />
             <Route path="/symptoms" element={<SymptomsPage answers={answers} />} />
             <Route path="/severity" element={<SeverityPage answers={answers} />} />
-            <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/recommendations" element={<RecommendationsPage />} />
-            <Route path="/sleep" element={<SleepPage />} />
-            <Route path="/stress" element={<StressPage />} />
-            <Route path="/wellness" element={<WellnessPage />} />
-            <Route path="/seek-help" element={<SeekHelpPage />} />
+            <Route path="/insights" element={<InsightsPage answers={answers} symptomsCount={symptomsCount} severityScore={severityScore} />} />
+            <Route path="/recommendations" element={<RecommendationsPage answers={answers} />} />
+            <Route path="/sleep" element={<SleepPage answers={answers} />} />
+            <Route path="/stress" element={<StressPage answers={answers} severityScore={severityScore} />} />
+            <Route path="/wellness" element={<WellnessPage answers={answers} />} />
+            <Route path="/seek-help" element={<SeekHelpPage answers={answers} symptomsCount={symptomsCount} />} />
             <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/report" element={<DownloadPage />} />
-            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/report" element={<DownloadPage answers={answers} symptomsCount={symptomsCount} severityScore={severityScore} patientName={patientName} dateString={currentTime} />} />
+            <Route path="/history" element={<HistoryPage answers={answers} symptomsCount={symptomsCount} severityScore={severityScore} />} />
             <Route path="/retake" element={<RetakePage onRetake={onRetake} />} />
           </Routes>
 

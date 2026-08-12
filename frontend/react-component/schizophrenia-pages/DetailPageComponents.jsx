@@ -774,53 +774,119 @@ export function SymptomsPage({ answers }) {
 }
 
 // 5. Cognitive Insights Page
-export function InsightsPage() {
+export function InsightsPage({ answers = [], symptomsCount = 0, severityScore = 0 }) {
   const [activePhase, setActivePhase] = useState(0);
 
-  const phases = [
-    {
-      title: 'Somatic Shifts',
-      num: 1,
-      dotClass: 'bg-cyan-400',
-      borderClass: 'border-cyan-400/30',
-      glowClass: 'shadow-[0_0_15px_rgba(34,211,238,0.12)]',
-      desc: 'Distorted smells, tastes, or auditory ticks.',
-      clinicalInsights: 'Early prodromal signs are often marked by somatic changes or perceptual variations, such as smelling faint odors or hearing clicking sounds that are not physically present. These represent sensory integration adjustments rather than persistent hallucinations.',
-      impacts: [
-        { label: 'Attention Span Focus', pct: '75%', color: 'bg-cyan-400' },
-        { label: 'Spatial Distraction Vulnerability', pct: '30%', color: 'bg-cyan-400' }
-      ],
-      interventions: 'Introduce grounding routines such as temperature changes (splash cold water on face) or sensory focus items (holding textured stones).'
-    },
-    {
-      title: 'Cognitive Disorganization',
-      num: 2,
-      dotClass: 'bg-purple-400',
-      borderClass: 'border-purple-500/30',
-      glowClass: 'shadow-[0_0_15px_rgba(139,92,246,0.12)]',
-      desc: 'Difficulty separating dreams from waking life.',
-      clinicalInsights: 'In this stage, the boundaries between internal thoughts, dream memories, and physical waking experiences can blur. This is often accompanied by thought blockages (forgetting speech mid-sentence) or rapid racing thought patterns.',
-      impacts: [
-        { label: 'Task Execution Accuracy', pct: '60%', color: 'bg-purple-400' },
-        { label: 'Working Memory Retention', pct: '45%', color: 'bg-purple-400' }
-      ],
-      interventions: 'Structure tasks into explicit step-lists, limit simultaneous multimedia use, and perform verbal grounding tracking (narrating actions aloud).'
-    },
-    {
-      title: 'Paranoia Patterns',
-      num: 3,
-      dotClass: 'bg-red-400',
-      borderClass: 'border-red-500/30',
-      glowClass: 'shadow-[0_0_15px_rgba(239,68,68,0.12)]',
-      desc: 'Believing others are plotting or targeting you.',
-      clinicalInsights: 'Mild subthreshold persecutory indicators can manifest as a feeling of hyper-alertness, social avoidance, or sensing threat cues in neutral environmental shapes or comments. These patterns are heightened during times of physical exhaustion.',
-      impacts: [
-        { label: 'Social Engagement Comfort', pct: '35%', color: 'bg-red-400' },
-        { label: 'Hyper-vigilance Arousal', pct: '85%', color: 'bg-red-400' }
-      ],
-      interventions: 'Share logs with trusted advisors, verify security anchors explicitly, and practice safe withdrawal spaces in low-stimulus environments.'
+  const phases = useMemo(() => {
+    const activePhases = [];
+    
+    // Cluster 1: Perceptual / Somatic (Q3, Q4, Q6, Q8)
+    const perceptualAns = answers.filter(a => [3, 4, 6, 8].includes(a.id) && a.symptom === true);
+    if (perceptualAns.length > 0) {
+      const totalDistress = perceptualAns.reduce((acc, a) => acc + (a.distress || 0), 0);
+      const avgDistressPct = Math.round((totalDistress / (perceptualAns.length * 5)) * 100);
+      activePhases.push({
+        title: 'Perceptual & Somatic Shifts',
+        num: activePhases.length + 1,
+        dotClass: 'bg-cyan-400',
+        borderClass: 'border-cyan-400/30',
+        glowClass: 'shadow-[0_0_15px_rgba(34,211,238,0.12)]',
+        desc: `Flagged ${perceptualAns.length} indicator(s): unusual noises, sensory shifts, or visual shadow cues.`,
+        clinicalInsights: `You reported ${perceptualAns.length} perceptual indicator(s) (such as subtle background noises, light shifts, or tactile variations). These indicate sensory integration load under stress rather than established clinical hallucinations.`,
+        impacts: [
+          { label: 'Sensory Processing Load', pct: `${Math.min(95, 35 + avgDistressPct)}%`, color: 'bg-cyan-400' },
+          { label: 'Attention Focus Retention', pct: `${Math.max(15, 100 - avgDistressPct)}%`, color: 'bg-cyan-400' }
+        ],
+        interventions: 'Introduce sensory grounding such as splashing cold water on your face, holding a textured object, or focusing on 5 physical items in your room.'
+      });
     }
-  ];
+
+    // Cluster 2: Cognitive Disorganization (Q5, Q9, Q11, Q12)
+    const cogAns = answers.filter(a => [5, 9, 11, 12].includes(a.id) && a.symptom === true);
+    if (cogAns.length > 0) {
+      const totalDistress = cogAns.reduce((acc, a) => acc + (a.distress || 0), 0);
+      const avgDistressPct = Math.round((totalDistress / (cogAns.length * 5)) * 100);
+      activePhases.push({
+        title: 'Cognitive & Thought Focus Shifts',
+        num: activePhases.length + 1,
+        dotClass: 'bg-purple-400',
+        borderClass: 'border-purple-500/30',
+        glowClass: 'shadow-[0_0_15px_rgba(139,92,246,0.12)]',
+        desc: `Flagged ${cogAns.length} indicator(s): thought speed, concentration blocks, or dream/reality blurs.`,
+        clinicalInsights: `You flagged ${cogAns.length} cognitive focus indicators (such as racing thoughts, speech flow blocks, or difficulty separating vivid dreams). Thought organization can fluctuate with cognitive strain.`,
+        impacts: [
+          { label: 'Task Organization Focus', pct: `${Math.max(20, 100 - avgDistressPct)}%`, color: 'bg-purple-400' },
+          { label: 'Cognitive Fatigue Accumulation', pct: `${Math.min(90, 40 + avgDistressPct)}%`, color: 'bg-purple-400' }
+        ],
+        interventions: 'Structure daily tasks into written step-by-step lists, break big goals into 15-minute chunks, and narrate your steps aloud.'
+      });
+    }
+
+    // Cluster 3: Paranoia & Social Threat Cues (Q7, Q10, Q14, Q15)
+    const paranoiaAns = answers.filter(a => [7, 10, 14, 15].includes(a.id) && a.symptom === true);
+    if (paranoiaAns.length > 0) {
+      const totalDistress = paranoiaAns.reduce((acc, a) => acc + (a.distress || 0), 0);
+      const avgDistressPct = Math.round((totalDistress / (paranoiaAns.length * 5)) * 100);
+      activePhases.push({
+        title: 'Social & Environment Alertness',
+        num: activePhases.length + 1,
+        dotClass: 'bg-red-400',
+        borderClass: 'border-red-500/30',
+        glowClass: 'shadow-[0_0_15px_rgba(239,68,68,0.12)]',
+        desc: `Flagged ${paranoiaAns.length} indicator(s): heightened suspiciousness, intent tracking, or feeling targeted.`,
+        clinicalInsights: `You identified ${paranoiaAns.length} indicators of heightened social alertness or mistrust. Environmental hyper-vigilance often arises when body stress systems remain activated.`,
+        impacts: [
+          { label: 'Hyper-vigilance Arousal', pct: `${Math.min(95, 50 + avgDistressPct)}%`, color: 'bg-red-400' },
+          { label: 'Social Engagement Comfort', pct: `${Math.max(15, 90 - avgDistressPct)}%`, color: 'bg-red-400' }
+        ],
+        interventions: 'Practice safe grounding spaces, verify security anchors with a trusted confidant, and take quiet breaks in low-stimulus settings.'
+      });
+    }
+
+    // Cluster 4: Bodily & Identity Changes (Q1, Q2, Q16)
+    const bodyAns = answers.filter(a => [1, 2, 16].includes(a.id) && a.symptom === true);
+    if (bodyAns.length > 0) {
+      const totalDistress = bodyAns.reduce((acc, a) => acc + (a.distress || 0), 0);
+      const avgDistressPct = Math.round((totalDistress / (bodyAns.length * 5)) * 100);
+      activePhases.push({
+        title: 'Somatic & Bodily Perception',
+        num: activePhases.length + 1,
+        dotClass: 'bg-orange-400',
+        borderClass: 'border-orange-500/30',
+        glowClass: 'shadow-[0_0_15px_rgba(245,158,11,0.12)]',
+        desc: `Flagged ${bodyAns.length} indicator(s): body structural shifts, unfamiliarity, or motivation changes.`,
+        clinicalInsights: `You noted ${bodyAns.length} somatic/bodily indicator(s) (such as feeling body changes or déjà vu). These experiences represent mild shifts in bodily self-awareness.`,
+        impacts: [
+          { label: 'Body Grounding Anchoring', pct: `${Math.max(25, 100 - avgDistressPct)}%`, color: 'bg-orange-400' },
+          { label: 'Somatic Sensitivity Index', pct: `${Math.min(85, 30 + avgDistressPct)}%`, color: 'bg-orange-400' }
+        ],
+        interventions: 'Engage in light physical stretching, barefoot walking on safe surfaces, or somatic deep breathing to reinforce physical boundaries.'
+      });
+    }
+
+    // Baseline fallback if 0 symptoms
+    if (activePhases.length === 0) {
+      activePhases.push({
+        title: 'Healthy Baseline Phase',
+        num: 1,
+        dotClass: 'bg-green-400',
+        borderClass: 'border-green-500/30',
+        glowClass: 'shadow-[0_0_15px_rgba(16,185,129,0.12)]',
+        desc: 'No clinical indicators flagged in your recent screening.',
+        clinicalInsights: 'Your responses indicate high reality contact with minimal to no reported perceptual anomalies or cognitive disorganization.',
+        impacts: [
+          { label: 'Reality Contact Anchoring', pct: '95%', color: 'bg-green-400' },
+          { label: 'Cognitive Organization Stability', pct: '90%', color: 'bg-green-400' }
+        ],
+        interventions: 'Continue standard healthy routines: regular sleep schedules, physical movement, and balanced social interactions.'
+      });
+    }
+
+    return activePhases;
+  }, [answers]);
+
+  const currentPhaseIndex = Math.min(activePhase, phases.length - 1);
+  const currentPhase = phases[currentPhaseIndex] || phases[0];
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] w-full p-6 md:p-10 text-left text-base leading-relaxed">
@@ -844,7 +910,7 @@ export function InsightsPage() {
 
           <div className="flex flex-col gap-4">
             {phases.map((ph, idx) => {
-              const isActive = activePhase === idx;
+              const isActive = currentPhaseIndex === idx;
               return (
                 <div 
                   key={idx} 
@@ -873,8 +939,8 @@ export function InsightsPage() {
           
           <div>
             <div className="flex items-center justify-between border-b border-slate-850 pb-4 mb-4">
-              <h3 className="text-xl font-bold text-white tracking-wide">Phase {phases[activePhase].num}: {phases[activePhase].title}</h3>
-              <span className={`px-3 py-1 rounded-lg text-xs font-bold bg-slate-900/50 border border-slate-800 ${phases[activePhase].dotClass.replace('bg-', 'text-')}`}>
+              <h3 className="text-xl font-bold text-white tracking-wide">Phase {currentPhase.num}: {currentPhase.title}</h3>
+              <span className={`px-3 py-1 rounded-lg text-xs font-bold bg-slate-900/50 border border-slate-800 ${currentPhase.dotClass.replace('bg-', 'text-')}`}>
                 Clinical Mapped Data
               </span>
             </div>
@@ -882,14 +948,14 @@ export function InsightsPage() {
             <div className="flex flex-col gap-4 text-[15px] text-slate-300">
               <div>
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Diagnostic Explanation</h4>
-                <p className="leading-relaxed font-sans">{phases[activePhase].clinicalInsights}</p>
+                <p className="leading-relaxed font-sans">{currentPhase.clinicalInsights}</p>
               </div>
 
               {/* Cognitive Telemetry stats */}
               <div className="mt-2">
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Estimated Function Retention</h4>
                 <div className="flex flex-col gap-3">
-                  {phases[activePhase].impacts.map((imp, impIdx) => (
+                  {currentPhase.impacts.map((imp, impIdx) => (
                     <div key={impIdx} className="flex flex-col gap-1">
                       <div className="flex justify-between text-xs font-semibold text-slate-350">
                         <span>{imp.label}</span>
@@ -909,7 +975,7 @@ export function InsightsPage() {
             <h4 className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
               <CheckCircle className="w-4 h-4 text-purple-400" /> Grounding Intervention
             </h4>
-            <p className="text-slate-300 text-sm leading-relaxed">{phases[activePhase].interventions}</p>
+            <p className="text-slate-300 text-sm leading-relaxed">{currentPhase.interventions}</p>
           </div>
 
         </div>
@@ -920,14 +986,48 @@ export function InsightsPage() {
 }
 
 // 6. Grounding Recommendations Page
-export function RecommendationsPage() {
-  const [items, setItems] = useState([
-    { id: 1, text: 'Introduce mindfulness grounding walks', checked: false, cat: 'Lifestyle' },
-    { id: 2, text: 'Commit to 20 mins low-stress somatic exercises daily', checked: false, cat: 'Exercise' },
-    { id: 3, text: 'Limit screen stimulants after midday', checked: false, cat: 'Routine' },
-    { id: 4, text: 'Schedule a structured catch-up with close circle members', checked: false, cat: 'Support' },
-    { id: 5, text: 'Track daily perceptual variations in a journal', checked: false, cat: 'Tracking' }
-  ]);
+export function RecommendationsPage({ answers = [] }) {
+  const dynamicItems = useMemo(() => {
+    const allPool = [
+      { id: 1, text: 'Introduce 5-4-3-2-1 sensory grounding exercises daily', cat: 'Grounding', triggerIds: [3, 4, 6, 8] },
+      { id: 2, text: 'Maintain a quiet evening wind-down routine for sensory calm', cat: 'Environment', triggerIds: [13, 4] },
+      { id: 3, text: 'Keep a structured daily routine to reduce cognitive stress', cat: 'Routine', triggerIds: [7, 10, 14, 15] },
+      { id: 4, text: 'Break complex tasks into written single-step checklists', cat: 'Cognitive', triggerIds: [5, 9, 11, 12] },
+      { id: 5, text: 'Commit to 15-20 minutes of gentle somatic stretching or walking', cat: 'Somatic', triggerIds: [1, 2, 16] },
+      { id: 6, text: 'Log daily perceptual variations and distress scores in a journal', cat: 'Tracking', triggerIds: [] },
+      { id: 7, text: 'Limit high-intensity screen stimuli 1 hour before sleep', cat: 'Sleep', triggerIds: [] },
+      { id: 8, text: 'Schedule a regular check-in with a trusted friend or advisor', cat: 'Support', triggerIds: [7, 10] },
+      { id: 9, text: 'Practice 4-7-8 deep breathing during moments of tension', cat: 'Stress', triggerIds: [4, 7, 13] },
+      { id: 10, text: 'Consult a qualified specialist for professional evaluation', cat: 'Clinical', triggerIds: [13, 14, 10, 6] }
+    ];
+
+    const flaggedIds = answers.filter(a => a.symptom === true).map(a => a.id);
+
+    const scored = allPool.map(item => {
+      let score = 0;
+      if (item.triggerIds.length === 0) {
+        score = 1;
+      } else {
+        const matches = item.triggerIds.filter(id => flaggedIds.includes(id));
+        score = matches.length * 3;
+      }
+      return { ...item, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, 5).map(item => ({
+      id: item.id,
+      text: item.text,
+      cat: item.cat,
+      checked: false
+    }));
+  }, [answers]);
+
+  const [items, setItems] = useState(dynamicItems);
+
+  useEffect(() => {
+    setItems(dynamicItems);
+  }, [dynamicItems]);
 
   const checkedCount = items.filter(i => i.checked).length;
   const progressPct = Math.round((checkedCount / items.length) * 100);
@@ -1041,7 +1141,7 @@ export function SleepPage() {
 }
 
 // 8. Stress Management Page
-export function StressPage() {
+export function StressPage({ answers = [], severityScore = 0 }) {
   const [expandedAct, setExpandedAct] = useState(null);
   const [breathingActive, setBreathingActive] = useState(false);
   const [breathingText, setBreathingText] = useState('Inhale');
@@ -1061,11 +1161,74 @@ export function StressPage() {
     return () => clearInterval(interval);
   }, [breathingActive]);
 
-  const activities = [
-    { id: 'breath', title: 'Deep Paced Breathing', duration: '5 Mins', diff: 'Easy', benefit: 'Lowers autonomic heart acceleration', desc: 'Slow, deep breathing cycles focus sensory awareness.' },
-    { id: 'yoga', title: 'Somatic Yoga Stretches', duration: '15 Mins', diff: 'Medium', benefit: 'Releases somatic muscle stress', desc: 'Gentle stretching targets muscle stress areas in shoulders and neck.' },
-    { id: 'journal', title: 'Grounding Journaling', duration: '10 Mins', diff: 'Easy', benefit: 'Identifies cognitive trigger patterns', desc: 'Logging observations clears thoughts and tracks perceptual deviations.' }
-  ];
+  const activities = useMemo(() => {
+    const flaggedIds = answers.filter(a => a.symptom === true).map(a => a.id);
+    const hasAuditory = flaggedIds.includes(4) || flaggedIds.includes(13);
+    const hasPerceptual = flaggedIds.includes(3) || flaggedIds.includes(6) || flaggedIds.includes(8);
+    const hasCog = flaggedIds.includes(5) || flaggedIds.includes(9) || flaggedIds.includes(11) || flaggedIds.includes(12);
+    const hasParanoia = flaggedIds.includes(7) || flaggedIds.includes(10) || flaggedIds.includes(14);
+    const hasSomatic = flaggedIds.includes(2) || flaggedIds.includes(16) || flaggedIds.includes(1);
+
+    const pool = [
+      {
+        id: 'breath',
+        title: 'Deep Paced Breathing (4-4-4)',
+        duration: '5 Mins',
+        diff: 'Easy',
+        priority: (hasAuditory || hasParanoia) ? 10 : 4,
+        benefit: 'Lowers autonomic heart acceleration and calms nervous system arousal.',
+        desc: 'Focusing on rhythmic slow breaths (Inhale 4s -> Hold 4s -> Exhale 4s) helps reduce auditory hyper-awareness and anxiety.'
+      },
+      {
+        id: 'sensory',
+        title: '5-4-3-2-1 Sensory Grounding Routine',
+        duration: '7 Mins',
+        diff: 'Easy',
+        priority: hasPerceptual ? 10 : 5,
+        benefit: 'Anchors perception to tangible physical surroundings.',
+        desc: 'Identify 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you taste to shift attention away from perceptual anomalies.'
+      },
+      {
+        id: 'cognitive',
+        title: 'Cognitive Task Structuring',
+        duration: '10 Mins',
+        diff: 'Medium',
+        priority: hasCog ? 10 : 3,
+        benefit: 'Reduces working memory overload and mental disorganization.',
+        desc: 'Break daily activities into written sequential steps and narrate actions aloud to preserve focus.'
+      },
+      {
+        id: 'yoga',
+        title: 'Somatic Yoga Stretches',
+        duration: '15 Mins',
+        diff: 'Medium',
+        priority: hasSomatic ? 10 : 3,
+        benefit: 'Releases somatic muscle stress in neck and shoulders.',
+        desc: 'Gentle stretching targets physical tension and improves bodily self-awareness.'
+      },
+      {
+        id: 'journal',
+        title: 'Grounding Thought Journaling',
+        duration: '10 Mins',
+        diff: 'Easy',
+        priority: hasParanoia ? 9 : 2,
+        benefit: 'Identifies cognitive trigger patterns and tests worrying assumptions.',
+        desc: 'Logging observations clears thoughts and tracks perceptual deviations systematically.'
+      },
+      {
+        id: 'coldwater',
+        title: 'Cold Water Somatic Reset',
+        duration: '2 Mins',
+        diff: 'Easy',
+        priority: severityScore > 20 ? 9 : 1,
+        benefit: 'Triggers the dive reflex to rapidly drop high distress arousal.',
+        desc: 'Splash cool water on your face or hold an ice cube wrapped in cloth for 30 seconds to anchor your body sensory system.'
+      }
+    ];
+
+    pool.sort((a, b) => b.priority - a.priority);
+    return pool;
+  }, [answers, severityScore]);
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] w-full p-6 md:p-10 text-left text-base leading-relaxed">
@@ -1349,12 +1512,13 @@ export function ResourcesPage() {
 }
 
 // 12. Download Report Page
-export function DownloadPage() {
+// 12. Download Report Page
+export function DownloadPage({ answers = [], symptomsCount = 0, severityScore = 0, patientName = "Patient", dateString = "" }) {
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] w-full p-6 md:p-10 text-left text-base leading-relaxed">
       <PageHeader title="Save and Share Results" subtitle="Download or export assessment logs details" />
       
-      <div className="bg-[#182235]/65 border border-[#384F6E]/15 rounded-[20px] p-10 shadow-2xl flex flex-col gap-6 text-center items-center w-full">
+      <div className="bg-[#182235]/65 border border-[#384F6E]/15 rounded-[20px] p-8 md:p-10 shadow-2xl flex flex-col gap-6 text-center items-center w-full">
         <div className="w-16 h-16 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center shadow-lg">
           <Download className="w-8 h-8" />
         </div>
@@ -1366,9 +1530,37 @@ export function DownloadPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mt-4 w-full sm:w-auto">
+        {/* Personalized Report Preview Card */}
+        <div className="w-full max-w-lg bg-slate-900/50 border border-slate-850 p-6 rounded-2xl text-left flex flex-col gap-3 my-2">
+          <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span className="text-xs font-bold text-purple-400 uppercase tracking-widest">Clinical Telemetry Snapshot</span>
+            <span className="text-xs text-slate-450">{dateString || 'Today'}</span>
+          </div>
+          <div className="grid grid-cols-2 gap-4 pt-1">
+            <div>
+              <span className="text-[11px] text-slate-500 font-bold block uppercase">PATIENT</span>
+              <span className="text-base font-bold text-white">{patientName}</span>
+            </div>
+            <div>
+              <span className="text-[11px] text-slate-500 font-bold block uppercase">PQ-16 SCORE</span>
+              <span className="text-base font-bold text-cyan-400">{symptomsCount} / 16 Yes</span>
+            </div>
+            <div>
+              <span className="text-[11px] text-slate-500 font-bold block uppercase">DISTRESS POINTS</span>
+              <span className="text-base font-bold text-orange-400">{severityScore} / 80 Pts</span>
+            </div>
+            <div>
+              <span className="text-[11px] text-slate-500 font-bold block uppercase">RISK CLASSIFICATION</span>
+              <span className={`text-base font-bold ${symptomsCount >= 10 ? 'text-red-400' : symptomsCount >= 6 ? 'text-orange-400' : 'text-green-400'}`}>
+                {symptomsCount >= 10 ? 'High Risk' : symptomsCount >= 6 ? 'Moderate Risk' : 'Low Risk'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 mt-2 w-full sm:w-auto">
           <button 
-            onClick={() => alert("Compiling screening report PDF. Download starting shortly...")}
+            onClick={() => alert(`Compiling PQ-16 screening report PDF for ${patientName}... Download starting shortly.`)}
             className="h-[48px] px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all flex items-center justify-center gap-2 hover:scale-105 cursor-pointer shadow-lg w-full sm:w-auto"
           >
             <Download className="w-5 h-5" /> Download PDF Report
@@ -1392,13 +1584,34 @@ export function DownloadPage() {
 }
 
 // 13. Assessment History Page
-export function HistoryPage() {
-  const { trendHistory } = schizophreniaDashboardMockData;
+export function HistoryPage({ answers = [], symptomsCount = 0, severityScore = 0 }) {
+  const [historyRecords, setHistoryRecords] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRisk, setFilterRisk] = useState('All');
 
+  useEffect(() => {
+    try {
+      const storedHist = localStorage.getItem('mindwave_schiz_history');
+      if (storedHist) {
+        const parsed = JSON.parse(storedHist);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setHistoryRecords(parsed);
+          return;
+        }
+      }
+    } catch (e) {
+      console.error("Error loading history", e);
+    }
+
+    // Fallback: build entry from current session
+    const currentDate = localStorage.getItem('mindwave_schiz_date') || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    setHistoryRecords([
+      { date: currentDate, score: symptomsCount, distressScore: severityScore }
+    ]);
+  }, [symptomsCount, severityScore]);
+
   const filteredHistory = useMemo(() => {
-    return trendHistory.filter((rec) => {
+    return historyRecords.filter((rec) => {
       const matchesSearch = rec.date.toLowerCase().includes(searchQuery.toLowerCase());
       
       const riskLevel = rec.score >= 10 ? 'High' : rec.score >= 6 ? 'Moderate' : 'Low';
@@ -1406,7 +1619,7 @@ export function HistoryPage() {
       
       return matchesSearch && matchesFilter;
     });
-  }, [trendHistory, searchQuery, filterRisk]);
+  }, [historyRecords, searchQuery, filterRisk]);
 
   return (
     <div className="flex flex-col gap-8 max-w-[1200px] w-full p-6 md:p-10 text-left text-base leading-relaxed">
